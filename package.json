@@ -1,0 +1,67 @@
+{
+  "name": "modelator",
+  "description": "Data deep modeling for PillarsJS.",
+  "version": "0.2.0",
+  "author": {
+    "name": "Javier Gallego Martín",
+    "email": "bifuer@gmail.com"
+  },
+  "contributors": [
+    {
+      "name": "Chelo Quilón Gomez",
+      "email": "cheloq@gmail.com"
+    }
+  ],
+  "homepage": "https://github.com/pillarsjs/modelator",
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/pillarsjs/modelator"
+  },
+  "bugs": {
+    "url": "https://github.com/pillarsjs/modelator/issues",
+    "email" : "cheloq@gmail.com"
+  },
+  "keywords": [
+    "mongo",
+    "mongodb",
+    "database",
+    "modeling",
+    "modelate",
+    "validation",
+    "form validation",
+    "input validation",
+    "mongo join",
+    "node",
+    "js",
+    "javascript"
+  ],
+  "dependencies": {
+    "crier": "*",
+    "objectarray": "*",
+    "date.format": "*",
+    "textualization": "*",
+    "mongodb": "*",
+    "node-fs": "*"
+  },
+  "devDependencies": {
+    "mocha": "*",
+    "unit.js": "*"
+  },
+  "main": "./index.js",
+  "scripts":{
+    "test": "mocha test/"
+  },
+  "preferGlobal": false,
+  "files": [
+    "LICENSE",
+    "README.md",
+    "index.js",
+    "examples",
+    "languages",
+    "lib",
+    "static",
+    "templates"
+  ],
+  "readmeFilename": "README.md",
+  "license": "MIT"
+}
