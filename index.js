@@ -41,7 +41,7 @@ const myModelator = new Modelator({
       id:'textI18n',
       i18n : true,
       keys : {
-        get : ["owner", "guest"],
+        retrieve : ["owner", "guest"],
         update : ["owner", "guest"]
       }
     }),
@@ -61,7 +61,7 @@ const myModelator = new Modelator({
         ]
       },
       keys : {
-        get: 'manager',
+        retrieve: 'manager',
         update : 'manager',
         insert : 'manager',
         remove : 'manager'
@@ -302,7 +302,7 @@ myModelator.do(
 console.log("\n\n  MODELATOR DO - GET\n".bgMagenta + "\n");
 console.log(" INPUT \t".bgCyan, JSON.stringify(sampleEntity, undefined, 2), "\n");
 myModelator.do(
-  "get",
+  "retrieve",
   sampleEntity,
   undefined,
   resultShow,
