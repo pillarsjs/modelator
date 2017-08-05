@@ -265,8 +265,8 @@ const insertData = {
 // Modelator call for update sentence
 console.log("\n\n  MODELATOR DO - UPDATE\n".bgMagenta + "\n");
 console.log(" INPUT \t".bgCyan, JSON.stringify(updateData, undefined, 2), "\n");
-myModelator.do(
-  "update",                       // method
+
+myModelator.update(
   undefined,                      // DB entity
   updateData,                     // sentence
   resultShow,                     // Callback
@@ -274,11 +274,13 @@ myModelator.do(
   ["A", "B", "admin", "manager_"] // keytags
 );
 
+
+
 // Modelator call for insert sentence
 console.log("\n\n  MODELATOR DO - INSERT\n".bgMagenta + "\n");
 console.log(" INPUT \t".bgCyan, JSON.stringify(insertData, undefined, 2), "\n");
-myModelator.do(
-  "insert",
+
+myModelator.insert(
   undefined,
   insertData,
   resultShow,
@@ -286,11 +288,13 @@ myModelator.do(
   ["A", "B", "admin", "manager_"]
 );
 
+
+
 // Modelator call for remove sentence
-console.log("\n\n  MODELATOR DO - REMOVE\n".bgMagenta + "\n");
+console.log("\n\n  MODELATOR - REMOVE\n".bgMagenta + "\n");
 console.log(" INPUT \t".bgCyan, JSON.stringify(sampleEntity, undefined, 2), "\n");
-myModelator.do(
-  "remove",
+
+myModelator.remove(
   sampleEntity,
   undefined,
   resultShow,
@@ -298,11 +302,13 @@ myModelator.do(
   ["A", "B", "admin", "manager_"]
 );
 
+
+
 // Modelator call for retrieve sentence
-console.log("\n\n  MODELATOR DO - GET\n".bgMagenta + "\n");
+console.log("\n\n  MODELATOR - GET\n".bgMagenta + "\n");
 console.log(" INPUT \t".bgCyan, JSON.stringify(sampleEntity, undefined, 2), "\n");
-myModelator.do(
-  "retrieve",
+
+myModelator.retrieve(
   sampleEntity,
   undefined,
   resultShow,
@@ -310,10 +316,12 @@ myModelator.do(
   ["A", "B", "admin", "manager_"]
 );
 
-// Modelator call for projection scope
-console.log("\n\n  MODELATOR DO - PROJECTION\n".bgMagenta + "\n");
-myModelator.do(
-  "projection",
+
+
+// Modelator call for projection info
+console.log("\n\n  MODELATOR - PROJECTION\n".bgMagenta + "\n");
+
+myModelator.projection(
   undefined,
   undefined,
   resultShow,
