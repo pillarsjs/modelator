@@ -266,12 +266,12 @@ const insertData = {
 console.log("\n\n  MODELATOR DO - UPDATE\n".bgMagenta + "\n");
 console.log(" INPUT \t".bgCyan, JSON.stringify(updateData, undefined, 2), "\n");
 myModelator.do(
-  "update",
-  undefined,
-  updateData,
-  resultShow,
-  "someUserID",
-  ["A", "B", "admin", "manager_"]
+  "update",                       // method
+  undefined,                      // DB entity
+  updateData,                     // sentence
+  resultShow,                     // Callback
+  "someUserID",                   // user ID
+  ["A", "B", "admin", "manager_"] // keytags
 );
 
 // Modelator call for insert sentence
