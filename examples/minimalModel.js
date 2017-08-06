@@ -34,18 +34,18 @@ const myModelControl = module.exports = new Modelator({
       },
       on : {
         update : [
-          function avoidAs(context, cb){
+          function avoidAs(context, done){
             if(context.result.indexOf('A')>=0){
-              cb("A no is possible");
+              done("A no is possible");
             } else {
-              cb();
+              done();
             }         
           },
-          function avoidBs(context, cb){
+          function avoidBs(context, done){
             if(context.result.indexOf('B')>=0){
-              cb("B no is possible");
+              done("B no is possible");
             } else {
-              cb();
+              done();
             }         
           }
         ]

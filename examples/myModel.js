@@ -15,13 +15,12 @@ const {
   Img
 } = require('../index');
 
-
+Modelator.debug = true; // Show all debug (and colorfull) info of modalating process
 
 // Modelator schema example, mix of many stuffs
 const myModelator = module.exports = new Modelator({
   id: "myModelator",
   limit : 5,
-  indexes : ['_id','field1','field2'],
   languages : ['en','es'],
   schema : [
     new Text({id:'text'}),
@@ -39,11 +38,11 @@ const myModelator = module.exports = new Modelator({
       values : ['A','B','C','D'],
       on : {
         update : [
-          function avoidA(context, cb){
+          function avoidA(context, done){
             if(context.result.indexOf('A')>=0){
-              cb("A no is possible");
+              done("A no is possible");
             } else {
-              cb();
+              done();
             }         
           }
         ]
@@ -74,9 +73,9 @@ const myModelator = module.exports = new Modelator({
     new SchemaArray({
       id:'list',
       on : {
-        insert : [function showMessage(context,cb){
+        insert : [function showMessage(context, done){
           console.log("\n", " ---> INSERT EVENT for list <--- ".bgBlue, "\n");
-          cb();
+          done();
         }]
       },
       schema: [
@@ -88,8 +87,8 @@ const myModelator = module.exports = new Modelator({
           },
           on : {
             /*
-            update : [function(context, cb){
-              cb('forced-error');
+            update : [function(context, done){
+              done('forced-error');
             }]
             */
           }
@@ -97,9 +96,9 @@ const myModelator = module.exports = new Modelator({
         new SchemaArray({
           id:'sublist',
           on : {
-            insert : [function showMessage(context,cb){
+            insert : [function showMessage(context, done){
               console.log("\n", " ---> INSERT EVENT for list <--- ".bgBlue, "\n");
-              cb();
+              done();
             }]
           },
           schema: [
