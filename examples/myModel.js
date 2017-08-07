@@ -20,8 +20,9 @@ Modelator.debug = true; // Show all debug (and colorfull) info of modalating pro
 // Modelator schema example, mix of many stuffs
 const myModelator = module.exports = new Modelator({
   id: "myModelator",
-  limit : 5,
+  limit : 50,
   languages : ['en','es'],
+  // driver : ModelatorMongoDriver,
   schema : [
     new Text({id:'text'}),
     new Text({
