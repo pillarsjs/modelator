@@ -18,7 +18,7 @@ const {
 const ModelatorMongoDriver = require('../lib/mongoInterface.js');
 const MongoClient = require('mongodb').MongoClient;
 const mongoService = createMongoConnection();
-const driver = new ModelatorMongoDriver({service : mongoService});
+const driver = new ModelatorMongoDriver({service : mongoService, database : 'Modelator'});
 Modelator.debug = true; // Show all debug (and colorfull) info of modalating process
 
 
