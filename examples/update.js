@@ -17,10 +17,10 @@ const updateData = {
       _id : 'n1001',
       img: "/to.mod.file",
       sublist : [
-        {
+        { // insert
           chk : 1
         },
-        {
+        { // update
           _id : 'a',
           chk : false
         }
