@@ -97,6 +97,9 @@ myModel.constructor.debug = false;
           img : "imgDod"
         },
         {
+          _id : "list1"
+        },
+        {
           __id : "listnuevo1",
           img : 'imgList1.png',
           sublist : [
@@ -130,6 +133,44 @@ myModel.constructor.debug = false;
     // UPDATE
     myModel.update(
       undefined,                         // Original entity (retrieve, remove)
+      sentence,                          // Input JAQL setence (update, insert)
+      next,                              // Result CB
+      "someUserID",                      // User ID
+      ["A", "B", "admin", "manager_"],   // User keyring
+      true                               // Exec transaction
+    );
+  })
+  /* */
+  .add(function(next){
+
+    const sentence = {
+      _id : "prueba",
+      text : 'Hello Remove!',
+      list : [
+        {_id : "list2"},
+        {_id : "listnuevo1"},
+        {_id : "listnuevo2"},
+      ]
+    };
+
+    // UPDATE
+    myModel.update(
+      undefined,                         // Original entity (retrieve, remove)
+      sentence,                          // Input JAQL setence (update, insert)
+      next,                              // Result CB
+      "someUserID",                      // User ID
+      ["A", "B", "admin", "manager_"],   // User keyring
+      true                               // Exec transaction
+    );
+  })
+  /* */
+  .add(function(next){
+
+    const sentence = {_id : "prueba"};
+
+    // UPDATE
+    myModel.remove(
+      sentence,                         // Original entity (retrieve, remove)
       sentence,                          // Input JAQL setence (update, insert)
       next,                              // Result CB
       "someUserID",                      // User ID
