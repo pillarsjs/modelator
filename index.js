@@ -25,7 +25,7 @@
 require("colors");
 slashScreen();
 
-module.exports = require('./lib/modelator');
+module.exports = require('./lib/fields');
 
 function slashScreen(){
   // Splash screen...

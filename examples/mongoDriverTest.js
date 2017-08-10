@@ -5,8 +5,9 @@ require("colors");
 
 const myModel = require("./myModel");
 const Chain = require("../lib/Chain");
+const Controllable = require("../lib/Controllable");
 
-myModel.constructor.debug = false;
+Controllable.debug = false;
 
 (new Chain())
   /* */

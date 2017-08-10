@@ -3,9 +3,10 @@
 
 // Require field types
 const {
+  Controllable,
   Modelator,
   Schema,
-  SchemaArray,
+  RelationalSchema,
   Text,
   Select,
   Radios,
@@ -20,7 +21,7 @@ const driver = new (require('../lib/mongoInterface.js'))({
   database : 'Modelator'
 });
 
-Modelator.debug = true; // Show all debug (and colorfull) info of modalating process
+Controllable.debug = true; // Show all debug (and colorfull) info of modalating process
 
 
 // Modelator schema example, mix of many stuffs
@@ -77,7 +78,7 @@ const myModelator = module.exports = new Modelator({
     new Checkbox({id:'checkbox'}),
     new Time({id:'time'}),
     new Img({id:'img'}),
-    new SchemaArray({
+    new RelationalSchema({
       id:'list',
       driver,
       on : {
@@ -101,7 +102,7 @@ const myModelator = module.exports = new Modelator({
             */
           }
         }),
-        new SchemaArray({
+        new RelationalSchema({
           id:'sublist',
           driver,
           on : {
