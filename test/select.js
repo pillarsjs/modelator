@@ -6,7 +6,28 @@ const {
 
 Modelator.debug = false;
 
-describe("Test input Select - Modelator", function(){	
+describe("Test input Select - Modelator", function(){
+	describe("Is an Array",function(){
+		const model = new Modelator({
+			id: "selectModel",  
+			schema : [
+				new Select({
+					id:'select',
+					values : [0,1,2,3,4,5,6]
+				})
+			]
+		});
+
+		it("Is an Array",function(testDone){
+			const updateData = {
+				_id: "asdfaf",
+				select: 1
+			};
+			model.update(undefined, updateData,function(err, context){
+				(err && context.errors.size>0)?testDone():test.fail("Data must be Array");				
+			},undefined,undefined);
+		});
+	}),	
 	describe("Select Integer Not Multiple", function(){		
 		const model = new Modelator({
 			id: "selectModel",  

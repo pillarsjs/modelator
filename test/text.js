@@ -23,7 +23,7 @@ describe("Test input Text - Modelator", function(){
 				myText : 9
 			};
 			model.update(undefined,updateData,function(err,context){
-				err?testDone():test.fail("Updated integer and value is not a integer");				
+				(err && context.errors.size>0)?testDone():test.fail("Updated integer and value is not a integer");				
 			}, undefined, undefined);
 		});
 
@@ -33,7 +33,7 @@ describe("Test input Text - Modelator", function(){
 				myInt : {hello: "it's me"}
 			};
 			model.update(undefined,updateData,function(err,context){
-				err?testDone():test.fail("Updated integer and value is not a integer");				
+				(err && context.errors.size>0)?testDone():test.fail("Updated integer and value is not a integer");				
 			}, undefined, undefined);
 		});
 
@@ -43,7 +43,7 @@ describe("Test input Text - Modelator", function(){
 				myInt : [1]
 			};
 			model.update(undefined,updateData,function(err,context){
-				err?testDone():test.fail("Updated integer and value is not a integer");				
+				(err && context.errors.size>0)?testDone():test.fail("Updated integer and value is not a integer");				
 			}, undefined, undefined);
 		});
 	});
