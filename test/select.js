@@ -24,7 +24,7 @@ describe("Test input Select - Modelator", function(){
 				select : [10]
 			};
 			model.update(undefined,updateData,function(err,context){
-				err?testDone():test.fail("Updated values not in select array");				
+				(err && context.errors.size>0)?testDone():test.fail("Updated values not in select array");				
 			}, undefined, undefined);
 		});
 
@@ -34,7 +34,7 @@ describe("Test input Select - Modelator", function(){
 				select : [1,1]
 			};
 			model.update(undefined,updateData,function(err,context){
-				err?testDone():test.fail("Updated duplicates indexes");				
+				(err && context.errors.size>0)?testDone():test.fail("Updated duplicates indexes");				
 			}, undefined, undefined);
 		});
 	});
@@ -59,7 +59,7 @@ describe("Test input Select - Modelator", function(){
 				selectInt : [10,11]
 			};
 			model.update(undefined,updateData,function(err,context){
-				err?testDone():test.fail("Updated values not in select array");				
+				(err && context.errors.size>0)?testDone():test.fail("Updated values not in select array");				
 			}, undefined, undefined);
 		});
 
@@ -69,7 +69,7 @@ describe("Test input Select - Modelator", function(){
 				selectInt : [1,1]
 			};
 			model.update(undefined,updateData,function(err,context){
-				err?testDone():test.fail("Updated duplicates indexes");				
+				(err && context.errors.size>0)?testDone():test.fail("Updated duplicates indexes");				
 			}, undefined, undefined);
 		});
 	});
@@ -91,7 +91,7 @@ describe("Test input Select - Modelator", function(){
 				selectText : ["aaa"]
 			};
 			model.update(undefined,updateData,function(err,context){
-				err?testDone():test.fail("Updated values not in select array");				
+				(err && context.errors.size>0)?testDone():test.fail("Updated values not in select array");				
 			}, undefined, undefined);
 		});
 
@@ -101,7 +101,7 @@ describe("Test input Select - Modelator", function(){
 				selectText : ["a","a"]
 			};
 			model.update(undefined,updateData,function(err,context){
-				err?testDone():test.fail("Updated duplicates indexes");				
+				(err && context.errors.size>0)?testDone():test.fail("Updated duplicates indexes");				
 			}, undefined, undefined);
 		});
 	});
