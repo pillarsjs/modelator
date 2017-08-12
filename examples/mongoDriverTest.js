@@ -52,7 +52,6 @@ Controllable.debug = false;
     };
     // INSERT
     myModel.insert(
-      undefined,                         // Original entity (retrieve, remove)
       sentence,                          // Input JAQL setence (update, insert)
       next,                              // Result CB
       "someUserID",                      // User ID
@@ -69,12 +68,22 @@ Controllable.debug = false;
     }, 'someUserId', ['A','B','C']);
   })
   /* *
-  .add(function(){
+  .add(function(next){
+
+    const sentence = {
+      list: true,
+      sublist : true
+    };
+
     // COUNT
-    mongoModelator.count(myModel, {},
-    function(result){
-      chain.next();
-    }, 'someUserId', ['A','B','C']);
+    myModel.count(
+      undefined,                         // Original entity (retrieve, remove)
+      sentence,                          // Input JAQL setence (update, insert)
+      next,                              // Result CB
+      "someUserID",                      // User ID
+      ["A", "B", "admin", "manager_"]    // User keyring
+      //true                             // Exec transaction
+    );
   })
   /* *
   .add(function(){
@@ -133,7 +142,6 @@ Controllable.debug = false;
 
     // UPDATE
     myModel.update(
-      undefined,                         // Original entity (retrieve, remove)
       sentence,                          // Input JAQL setence (update, insert)
       next,                              // Result CB
       "someUserID",                      // User ID
@@ -156,7 +164,6 @@ Controllable.debug = false;
 
     // UPDATE
     myModel.update(
-      undefined,                         // Original entity (retrieve, remove)
       sentence,                          // Input JAQL setence (update, insert)
       next,                              // Result CB
       "someUserID",                      // User ID
@@ -171,7 +178,6 @@ Controllable.debug = false;
 
     // UPDATE
     myModel.remove(
-      sentence,                         // Original entity (retrieve, remove)
       sentence,                          // Input JAQL setence (update, insert)
       next,                              // Result CB
       "someUserID",                      // User ID

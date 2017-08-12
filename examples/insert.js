@@ -41,7 +41,6 @@ console.log("\n\n  MODELATOR - INSERT\n".bgMagenta + "\n");
 console.log(" INPUT \t".bgCyan, JSON.stringify(insertData, undefined, 2), "\n");
 
 myModel.insert(
-  undefined,                         // Original entity (retrieve, remove)
   insertData,                        // Input JAQL setence (update, insert)
   undefined,                         // Result CB
   "someUserID",                      // User ID

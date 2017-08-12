@@ -46,7 +46,6 @@ console.log("\n\n  MODELATOR - UPDATE\n".bgMagenta + "\n");
 console.log(" INPUT \t".bgCyan, JSON.stringify(updateData, undefined, 2), "\n");
 
 myModel.update(
-  undefined,                         // Original entity (retrieve, remove)
   updateData,                        // Input JAQL setence (update, insert)
   undefined,                         // Result CB
   "someUserID",                      // User ID

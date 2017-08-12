@@ -36,7 +36,7 @@ const myModelator = module.exports = new Modelator({
       id:'textI18n',
       i18n : true,
       keys : {
-        retrieve : ["owner", "guest"],
+        get : ["owner", "guest"],
         update : ["owner", "guest"]
       }
     }),
@@ -56,7 +56,7 @@ const myModelator = module.exports = new Modelator({
         ]
       },
       keys : {
-        retrieve: 'manager',
+        get: 'manager',
         update : 'manager',
         insert : 'manager',
         remove : 'manager'

@@ -54,7 +54,6 @@ console.log(" INPUT \t".bgCyan, JSON.stringify(sampleEntity, undefined, 2), "\n"
 
 myModel.retrieve(
   sampleEntity,                      // Original entity (retrieve, remove)
-  undefined,                         // Input JAQL setence (update, insert)
   undefined,                         // Result CB
   "someUserID",                      // User ID
   ["A", "B", "admin", "manager_"]    // User keyring

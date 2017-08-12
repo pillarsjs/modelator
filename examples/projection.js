@@ -7,7 +7,6 @@ const myModel = require("./myModel");
 console.log("\n\n  MODELATOR - PROJECTION\n".bgMagenta + "\n");
 
 myModel.projection(
-  undefined,                         // Original entity (retrieve, remove)
   undefined,                         // Input JAQL setence (update, insert)
   undefined,                         // Result CB
   "someUserID",                      // User ID
