@@ -25,7 +25,7 @@
 require("colors");
 slashScreen();
 
-module.exports = require('./lib/fields');
+module.exports = require('./lib/index');
 
 function slashScreen(){
   // Splash screen...
