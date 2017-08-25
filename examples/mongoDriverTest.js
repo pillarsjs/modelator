@@ -54,7 +54,7 @@ Controllable.debug = false;
     myModel.insert(
       sentence,                          // Input JAQL setence
       function(error, context, transaction){
-        console.log("RESULT".bgRed, transaction);
+        // console.log("RESULT".bgRed, transaction);
         next();
       },                              // Result CB
       "someUserID",                      // User ID
@@ -75,7 +75,7 @@ Controllable.debug = false;
     myModel.get(
       sentence,                          // Input JAQL setence
       function(){
-        console.log("RESULT".bgRed,arguments);
+        // console.log("RESULT".bgRed,arguments);
         next();
       },                              // Result CB
       "someUserID",                      // User ID
@@ -93,7 +93,7 @@ Controllable.debug = false;
     myModel.count(
       sentence,                          // Input JAQL setence
       function(){
-        console.log("RESULT".bgRed,arguments);
+        // console.log("RESULT".bgRed,arguments);
         next();
       },                              // Result CB
       "someUserID",                      // User ID
@@ -148,7 +148,7 @@ Controllable.debug = false;
     myModel.update(
       sentence,                          // Input JAQL setence
       function(){
-        console.log("RESULT".bgRed,arguments);
+        // console.log("RESULT".bgRed,arguments);
         next();
       },                              // Result CB
       "someUserID",                      // User ID
@@ -172,7 +172,7 @@ Controllable.debug = false;
     myModel.update(
       sentence,                          // Input JAQL setence
       function(){
-        console.log("RESULT".bgRed,arguments);
+        // console.log("RESULT".bgRed,arguments);
         next();
       },                              // Result CB
       "someUserID",                      // User ID
@@ -188,7 +188,7 @@ Controllable.debug = false;
     myModel.remove(
       sentence,                          // Input JAQL setence
       function(){
-        console.log("RESULT".bgRed,arguments);
+        // console.log("RESULT".bgRed,arguments);
         next();
       },                              // Result CB
       "someUserID",                      // User ID
