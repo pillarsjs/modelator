@@ -5,20 +5,20 @@ require("colors");
 
 const myModel = require("./myModel");
 const Chain = require("../lib/Chain");
-const Controllable = require("../lib/Controllable");
-
-Controllable.debug = false;
+// const Controllable = require("../lib/Controllable");
+// Controllable.debug = false;
 
 (new Chain())
   /* */
   .add(function(next){
+
     const sentence = {
       _id : "prueba",
       text : 'Hello 2!',
       list : [
         {
           __id : "list1",
-          img : 'imfFalse',
+          img : 'imgFalse',
           sublist : [
             {
               __id : "sublist11",
@@ -50,52 +50,48 @@ Controllable.debug = false;
         },
       ]
     };
-    // INSERT
+
     myModel.insert(
-      sentence,                          // Input JAQL setence (update, insert)
+      sentence,                          // Input JAQL setence
       next,                              // Result CB
       "someUserID",                      // User ID
       ["A", "B", "admin", "manager_"],   // User keyring
       true                               // Exec transaction
     );
   })
-  /* *
-  .add(function(){
-    // LIST
-    mongoModelator.list(myModel, {},
-    function(result){
-      chain.next();
-    }, 'someUserId', ['A','B','C']);
-  })
-  /* *
+  /* */
   .add(function(next){
 
     const sentence = {
-      list: true,
-      sublist : true
+      "_id" : "prueba",
+      "text" : "Hello 2!",
+      "list.sublist" : {"chk" : true},
+      "list" : {}
     };
 
-    // COUNT
-    myModel.count(
-      undefined,                         // Original entity (retrieve, remove)
-      sentence,                          // Input JAQL setence (update, insert)
+    myModel.get(
+      sentence,                          // Input JAQL setence
       next,                              // Result CB
       "someUserID",                      // User ID
-      ["A", "B", "admin", "manager_"]    // User keyring
-      //true                             // Exec transaction
+      ["A", "B", "admin", "manager_"],   // User keyring
+      true                               // Exec transaction
     );
   })
-  /* *
-  .add(function(){
-    // RETRIEVE
-    mongoModelator.retrieve(myModel, {
-      _id : id
-    },
-    function(result){
-      chain.next();
-    }, 'someUserId', ['A','B','C']);
-  })
   /* */
+  .add(function(next){
+
+    const sentence = {
+      "list.sublist" : {},
+    };
+
+    myModel.count(
+      sentence,                          // Input JAQL setence
+      next,                              // Result CB
+      "someUserID",                      // User ID
+      ["A", "B", "admin", "manager_"],   // User keyring
+      true                               // Exec transaction
+    );
+  })
   .add(function(next){
 
     const sentence = {
@@ -140,9 +136,8 @@ Controllable.debug = false;
       ]
     };
 
-    // UPDATE
     myModel.update(
-      sentence,                          // Input JAQL setence (update, insert)
+      sentence,                          // Input JAQL setence
       next,                              // Result CB
       "someUserID",                      // User ID
       ["A", "B", "admin", "manager_"],   // User keyring
@@ -162,9 +157,8 @@ Controllable.debug = false;
       ]
     };
 
-    // UPDATE
     myModel.update(
-      sentence,                          // Input JAQL setence (update, insert)
+      sentence,                          // Input JAQL setence
       next,                              // Result CB
       "someUserID",                      // User ID
       ["A", "B", "admin", "manager_"],   // User keyring
@@ -176,24 +170,13 @@ Controllable.debug = false;
 
     const sentence = {_id : "prueba"};
 
-    // UPDATE
     myModel.remove(
-      sentence,                          // Input JAQL setence (update, insert)
+      sentence,                          // Input JAQL setence
       next,                              // Result CB
       "someUserID",                      // User ID
       ["A", "B", "admin", "manager_"],   // User keyring
       true                               // Exec transaction
     );
-  })
-  /* *
-  .add(function(){
-    // REMOVE
-    mongoModelator.remove(myModel, {
-      _id : id
-    },
-    function(result){
-      chain.next();
-    }, 'someUserId', ['A','B','C']);
   })
   /* */
 .pull();
