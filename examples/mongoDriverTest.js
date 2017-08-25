@@ -5,8 +5,8 @@ require("colors");
 
 const myModel = require("./myModel");
 const Chain = require("../lib/Chain");
-// const Controllable = require("../lib/Controllable");
-// Controllable.debug = false;
+const Controllable = require("../lib/Controllable");
+Controllable.debug = false;
 
 (new Chain())
   /* */
@@ -53,7 +53,10 @@ const Chain = require("../lib/Chain");
 
     myModel.insert(
       sentence,                          // Input JAQL setence
-      next,                              // Result CB
+      function(error, context, transaction){
+        console.log("RESULT".bgRed, transaction);
+        next();
+      },                              // Result CB
       "someUserID",                      // User ID
       ["A", "B", "admin", "manager_"],   // User keyring
       true                               // Exec transaction
@@ -65,13 +68,16 @@ const Chain = require("../lib/Chain");
     const sentence = {
       "_id" : "prueba",
       "text" : "Hello 2!",
-      "list.sublist" : {"chk" : true},
+      //"list.sublist" : {"chk" : true},
       "list" : {}
     };
 
     myModel.get(
       sentence,                          // Input JAQL setence
-      next,                              // Result CB
+      function(){
+        console.log("RESULT".bgRed,arguments);
+        next();
+      },                              // Result CB
       "someUserID",                      // User ID
       ["A", "B", "admin", "manager_"],   // User keyring
       true                               // Exec transaction
@@ -86,7 +92,10 @@ const Chain = require("../lib/Chain");
 
     myModel.count(
       sentence,                          // Input JAQL setence
-      next,                              // Result CB
+      function(){
+        console.log("RESULT".bgRed,arguments);
+        next();
+      },                              // Result CB
       "someUserID",                      // User ID
       ["A", "B", "admin", "manager_"],   // User keyring
       true                               // Exec transaction
@@ -138,7 +147,10 @@ const Chain = require("../lib/Chain");
 
     myModel.update(
       sentence,                          // Input JAQL setence
-      next,                              // Result CB
+      function(){
+        console.log("RESULT".bgRed,arguments);
+        next();
+      },                              // Result CB
       "someUserID",                      // User ID
       ["A", "B", "admin", "manager_"],   // User keyring
       true                               // Exec transaction
@@ -159,7 +171,10 @@ const Chain = require("../lib/Chain");
 
     myModel.update(
       sentence,                          // Input JAQL setence
-      next,                              // Result CB
+      function(){
+        console.log("RESULT".bgRed,arguments);
+        next();
+      },                              // Result CB
       "someUserID",                      // User ID
       ["A", "B", "admin", "manager_"],   // User keyring
       true                               // Exec transaction
@@ -172,7 +187,10 @@ const Chain = require("../lib/Chain");
 
     myModel.remove(
       sentence,                          // Input JAQL setence
-      next,                              // Result CB
+      function(){
+        console.log("RESULT".bgRed,arguments);
+        next();
+      },                              // Result CB
       "someUserID",                      // User ID
       ["A", "B", "admin", "manager_"],   // User keyring
       true                               // Exec transaction
