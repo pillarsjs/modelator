@@ -9,9 +9,11 @@
 ## Definición
 
 **JAQL - JSON API Query Language**
+
 JAQL define un lenguaje de consulta agnóstico en cuanto a BDD (SQL-NOSQL) que permita realizar la variedad de operaciones que ofrece Modelator desde un API restfull.
 
 **Pillars Modelator (aka Modelator)**
+
 Modelator permite definir esquemas de datos relacionales y la lógica de los mismos, mientras automatiza gran cantidad de tareas de desarrollo.
 
 ## Básicos
@@ -45,17 +47,35 @@ Finalmente la sentencia que se pasa a dicho método del modelado seleccionado se
 
 Como JAQL es un lenguaje de consulta relacional podemos comparar una consulta SQL con JAQL y comprobar como el endpoint junto con el payload en JAQL forman una consulta clásica extrapolable a SQL (y NOSQL):
 
-```
+**Ejemplo de consulta de datos, SIN modificación**
+
+- SQL:
+```sql
 SQL: SELECT c1, c2, c3 FROM users WHERE c1 = 0;
+```
+- JAQL:
+```txt
+GET '/api/v1/users' > {select:['c1','c2','c3'], query: {c1 : 0}}
+```
+- Interpretación:
+```txt
 (HTTP METHOD: GET) (JAQL: select) (HTTP PATH: '/api/v1/users') (JAQL: query)
-JAQL: GET '/api/v1/users' > {select:['c1','c2','c3'], query: {c1 : 0}}
 ```
 
-o...
+**Ejemplo de consulta de datos, CON modificación**
 
+- SQL:
+```sql
+UPDATE users SET c1 = 1, c2 = 2 WHERE _id = 10
 ```
-SQL: UPDATE users SET c1 = 1, c2 = 2 WHERE _id = 10
+
+- JAQL:
+```txt
 (HTTP METHOD: PATCH) (HTTP PATH: '/api/v1/users') (JAQL: update)
+```
+
+- Interpretación:
+```txt
 JAQL: PATCH '/api/v1/users' > {update: {_id : 10, c1 : 1, c2: 2}}
 ```
 
