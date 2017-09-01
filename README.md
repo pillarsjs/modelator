@@ -11,6 +11,15 @@
 
 # Welcome to **Pillars Modelator (aka Modelator)**, data deep modeling for Node & Pillars.
 
+## Specification
+
+*+The current step is to define a clear specification.**
+
+At the moment we are covering the discussion in Spanish, but the final version will be translated to English and other languages too.
+
+You can follow and participate in the discussion [here](https://github.com/pillarsjs/modelator/labels/specification). Also [here](specification/README.md) you can read the current draft.
+
+
 ## Licence
 
 This package, Pillars Modelator (aka Modelator) is licensed under the
