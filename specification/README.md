@@ -2,7 +2,7 @@
 
 ### About this Version
 
-- **Current version: 0.1-draft **
+- **Current version: 0.1-draft**
 - **Previous version: [Wiki](https://github.com/pillarsjs/modelator/wiki/JAQL-Specification-(v0.1))**
 - **[Open Discussions](https://github.com/pillarsjs/modelator/labels/specification)**
 

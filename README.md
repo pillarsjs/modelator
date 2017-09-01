@@ -13,7 +13,7 @@
 
 ## Specification
 
-*+The current step is to define a clear specification.**
+**The current step is to define a clear specification.**
 
 At the moment we are covering the discussion in Spanish, but the final version will be translated to English and other languages too.
 
