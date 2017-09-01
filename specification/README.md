@@ -221,12 +221,17 @@ Podemos mezclar multiples propiedades en una misma petición
 > Nota: otros métodos quedan reservados a posibles usos con archivos o para adquirir el descriptor publico del modelado seleccionado etc, por lo que PUT queda reservado para su uso en posteriores versiones.
 
 
-### Petición en detalle
+### Ejemplos
 
 **Otro ejemplo de JAQL query:**
 
+- SQL
+```sql
 SELECT * FROM db WHERE a = 0 AND (b = 1 || b = 2) AND d = 5
 ```
+
+- JAQL
+```json
 {
   query : {
     a : 0,
@@ -239,12 +244,14 @@ SELECT * FROM db WHERE a = 0 AND (b = 1 || b = 2) AND d = 5
 
 **Ejemplo de JAQL query más complejo (sin revisar, viene de otras notas de la especificación):**
 
+- SQL
+```sql
+SELECT c1, c3, c4, sublist.* FROM db INNER JOIN sublist ON sublist._id = db.__sublist AND sublist.color = 'red' WHERE db.c3 > 3 AND db.c3 <= 8 ORDER BY c2 DESC LIMIT 30, 10
 ```
-SQL (SELECT c1, c3, c4, sublist.* FROM db INNER JOIN sublist ON sublist._id = db.__sublist AND sublist.color = 'red' WHERE db.c3 > 3 AND db.c3 <= 8 ORDER BY c2 DESC LIMIT 30, 10)
-```
+- JAQL
 
-```  
-JAQL : {
+```json
+{
   select : {
     'c1' : true,
     'c2' : false,
@@ -294,21 +301,30 @@ select : [
 
 Una respuesta JAQL sigue el siguiente formato para cualquiera de los métodos disponibles:
 
-```
+- `errors`
+  - Identificador/puntero y descriptores de error para el mismo
+  ```json
+  'user.friendships[345f2da0]._id' : [
+    {type:"validation", msg:"Invalid ID", details: {...error, stack, etc...}}
+  ]
+  ```  
+- `data`
+  - Data contiene el cuerpo principal del resultado, siempre es undefined si errors contiene uno o más errores.
+  - Para llamadas get: devuelve un array que contendrá los resultados.
+  - Para el resto de llamadas no emite ninguna respuesta
+
+- `meta`
+  - Para añadir meta información como paginación, conteos, indices insertados... Es un objeto
+
+- `includes`
+  - Siempre es un array, permite empaquetar todos los resultados de proyecciones/population evitando repetir contenido en el cuerpo principal.
+
+
+```json
 {
-  errors : {
-    // Identificador/puntero y descriptores de error para el mismo
-    'user.friendships[345f2da0]._id' : [
-      {type:"validation", msg:"Invalid ID", details: {...error, stack, etc...}}
-      ...
-    ],
-    ...
-  },
+  errors : {},
   data: [],
-  // data contiene el cuerpo principal del resultado, siempre es undefined si errors contiene uno o más errores.
-  // para llamadas get: devuelve un array que contendrá los resultados.
-  // para el resto de llamadas no emite ninguna respuesta
-  meta: {}     // para añadir meta información como paginación, conteos, indices insertados... Es un objeto
-  includes: [] // siempre es un array, permite empaquetar todos los resultados de proyecciones/population evitando repetir contenido en el cuerpo principal.
+  meta: {},
+  includes: []
 }
 ```
