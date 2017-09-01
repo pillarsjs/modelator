@@ -6,10 +6,23 @@
 - **Previous version: [Wiki](https://github.com/pillarsjs/modelator/wiki/JAQL-Specification-(v0.1))**
 - **[Open Discussions](https://github.com/pillarsjs/modelator/labels/specification)**
 
+## Definición
 
-La idea de JAQL es definir un lenguaje de consulta agnóstico en cuanto a BDD (SQL-NOSQL) que permita realizar la variedad de operaciones que ofrece Modelator desde un API restfull
+**JAQL - JSON API Query Language**
+JAQL define un lenguaje de consulta agnóstico en cuanto a BDD (SQL-NOSQL) que permita realizar la variedad de operaciones que ofrece Modelator desde un API restfull.
 
+**Pillars Modelator (aka Modelator)**
 Modelator permite definir esquemas de datos relacionales y la lógica de los mismos, mientras automatiza gran cantidad de tareas de desarrollo.
+
+## Básicos
+
+### Definición general
+
+Modelator es una clase con (entre otros) cinco métodos que se montan sobre los correspondientes métodos HTTP, el input y output de los métodos de Modelator funcionan con JAQL por lo que el API producida funciona de la misma forma. Un API público de Modelator, uno expuesto vía HTTP, es básicamente una interface para realizar llamadas a métodos de la clase Modelator.
+
+Modelator puede generar un API en base a un modelado (instancia de Modelator) de forma totalmente automática, gestionar su seguridad, acceso, internacionalización, relaciones, proyecciones/includes y amplio rango de acciones muy superior al básico que ofrece un API restfull al uso.
+
+Una de las grandes diferencias de JAQL es que se trata de un lenguaje de consulta montado sobre métodos HTTP, no es una versión de RESTfull. La otra gran diferencia es que Modelator asume que el modelo es una entidad superior a la lógica, es decir, en Modelator la lógica no accede al modelo sino que el modelo gestiona la lógica.
 
 Modelator acepta 4 métodos a ejecutar sobre un modelado:
  - myModel.insert()
@@ -19,14 +32,8 @@ Modelator acepta 4 métodos a ejecutar sobre un modelado:
 
 Cada uno de los métodos están relacioandos con un método HTTP. A su vez cada método permite realizar operaciones especialmente complejas (transacciones relacionales, proyecciones...) descritas de forma breve y clara en utilizando JSON.
 
-Modelator puede generar un API en base a un modelado (instancia de Modelator) de forma totalmente automática, gestionar su seguridad, acceso, internacionalización, relaciones, proyecciones/includes y amplio rango de acciones muy superior al básico que ofrece un API restfull al uso.
 
-Una de las grandes diferencias de JAQL es que se trata de un lenguaje de consulta montado sobre métodos HTTP, no es una versión de RESTfull. La otra gran diferencia es que Modelator asume que el modelo es una entidad superior a la lógica, es decir, en Modelator la lógica no accede al modelo sino que el modelo gestiona la lógica.
-
-De forma muy resumida Modelator es una clase con (entre otros) cinco métodos que se montan sobre los correspondientes métodos HTTP, el input y output de los métodos de Modelator funcionan con JAQL por lo que el API producida funciona de la misma forma. Un API público de Modelator, uno expuesto vía HTTP, es básicamente una interface para realizar llamadas a métodos de la clase Modelator.
-
-
-## Funcionamiento general de un API HTTP basado en JAQL
+### Funcionamiento de una API basada en JAQL
 
 Como ya hemos visto el método HTTP define el método de Modelator, pero necesitamos conocer que modelado de todos los instanciados queremos operar, para esto utilizamos el path/endpoint que sirve exclusivamente para seleccionar un modelado sobre el que realizar una operación. No existen, como ocurre en RESTfull, números indicando indices para operaciones, o sub-rutas, ya que esto es responsabilidad de las sentencias JAQL que oportan en este punto mucha más libertad para realizar operaciones que un escueto indice numérico.
 
@@ -53,8 +60,9 @@ JAQL: PATCH '/api/v1/users' > {update: {_id : 10, c1 : 1, c2: 2}}
 ```
 
 
-## La sentencia JAQL
+## JAQL en detalle
 
+### Básico
 Una sentencia JAQL (JSON enviado en el payload de la solicitud HTTP) tiene 5 propiedades posibles:
 
 ```
@@ -94,7 +102,9 @@ Una sentencia JAQL (JSON enviado en el payload de la solicitud HTTP) tiene 5 pro
 > Nota: otros métodos quedan reservados a posibles usos con archivos o para adquirir el descriptor publico del modelado seleccionado etc, por lo que PUT queda reservado para su uso en posteriores versiones.
 
 
-## Otro ejemplo de JAQL **query**:
+### Petición en detalle
+
+**Otro ejemplo de JAQL query:**
 
 SELECT * FROM db WHERE a = 0 AND (b = 1 || b = 2) AND d = 5
 ```
@@ -108,7 +118,7 @@ SELECT * FROM db WHERE a = 0 AND (b = 1 || b = 2) AND d = 5
 ```
 
 
-## Ejemplo de JAQL **query** más complejo (sin revisar, viene de otras notas de la especificación):
+**Ejemplo de JAQL query más complejo (sin revisar, viene de otras notas de la especificación):**
 
 ```
 SQL (SELECT c1, c3, c4, sublist.* FROM db INNER JOIN sublist ON sublist._id = db.__sublist AND sublist.color = 'red' WHERE db.c3 > 3 AND db.c3 <= 8 ORDER BY c2 DESC LIMIT 30, 10)
@@ -134,7 +144,7 @@ JAQL : {
 ```
 
 
-## JAQL **select** en más detalle:
+**JAQL select en más detalle:**
 
 La propiedad `.main` de cada field en Modelator especifica (como bool) si se considera un field principal, e incluido en las selecciones por defecto, o no. Es decir, main:true hace que dicho atributo/field sea devuelto por defecto si no se especifica lo contrario en la sentencia de lección `select`
 
@@ -161,7 +171,7 @@ select : [
 > Nota: En la sub-sentencia `query` de JAQL no es necesario solucionar una forma de permitir comparar una columna con otra, todos los posibles enlaces relacionales de los datos son conocidos por el modelado, incluidas las sentencias `"INNER JOIN ... ON"` que dejan de ser necesarias para realizar consultas relacionales utilizando JAQL.
 
 
-## La respuesta JAQL
+### La respuesta JAQL
 
 Una respuesta JAQL sigue el siguiente formato para cualquiera de los métodos disponibles:
 
