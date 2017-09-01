@@ -82,40 +82,139 @@ JAQL: PATCH '/api/v1/users' > {update: {_id : 10, c1 : 1, c2: 2}}
 
 ## JAQL en detalle
 
-### Básico
-Una sentencia JAQL (JSON enviado en el payload de la solicitud HTTP) tiene 5 propiedades posibles:
+### Básico: Métodos
+Una sentencia JAQL (JSON enviado en el payload de la solicitud HTTP) tiene 5 propiedades posibles
 
-```
+**Select**
+
+Permite filtrar los campos que deseamos obtener ahorrando peso y tiempo de consulta, es opcional la utilizar el metodo GET, ignorado en cualquier otro caso.
+
+```json
 {
-  select: ['colors','!_id'] // permite filtrar los campos que deseamos obtener ahorrando peso y tiempo de consulta, es opcional la utilizar el metodo GET, ignorado en cualquier otro caso.
-  query: {                  // permite realizar operaciones de comparación por cada campo (>=,==,<=,!=), Modelator solo permitirá realizar operaciones de este tipo en campos indexados. Es opcional en el metodo GET, se ignora en cualquier otro caso.
-    'c1' : [{'>': 5, '<=' : 10}, {'=' : 15}] // (c1 > 5 AND c1 <= 10) OR c1 = 15
+  'select': ['colors','!_id']
+}
+```
+
+**Query**
+
+Permite realizar operaciones de comparación por cada campo (>=,==,<=,!=), Modelator solo permitirá realizar operaciones de este tipo en campos indexados. Es opcional en el metodo GET, se ignora en cualquier otro caso.
+
+La lógica sería `(c1 > 5 AND c1 <= 10) OR c1 = 15`
+
+```json
+{
+  'query': {
+    'c1' : [{'>': 5, '<=' : 10}, {'=' : 15}]
   }
-  insert : [{              // cuerpo de una entidad/es a insertar, Modelator permite crear esquemas relacionales y el mismo gestiona dichas relaciones de forma automatica, una nueva entidad puede implicar inserciones en multitud de tablas/colecciones. Solo en metodo POST
+}
+```
+
+**Insert**
+
+El cuerpo de una entidad/es a insertar, Modelator permite crear esquemas relacionales y el mismo gestiona dichas relaciones de forma automatica, una nueva entidad puede implicar inserciones en multitud de tablas/colecciones. Solo en metodo POST
+
+```json
+{
+  'insert' : [{
     'c1' : 10,
     'c2' : 12
-  }],
-  update : {                 // campos a modificar en una entidad especificada por la propiedad _id, es posible declarar modificaciones, inserciones y borrados en entidades 'hija' de la entidad seleccionada en la misma llamada. Solo en el metodo PATCH
-    '_id' : 'someId'
+  }]
+}
+```
+
+
+**Update**
+
+Los campos a modificar en una entidad especificada por la propiedad `\_id`, es posible declarar modificaciones, inserciones y borrados en entidades 'hija' de la entidad seleccionada en la misma llamada. Solo en el metodo PATCH
+
+
+```json
+{
+  update : {
+    '_id' : 'someId',
+    'c1' : 10,
+    'c2' : 12
+  }
+}
+```
+
+El campo es de tipo `list` y puede (en el meotodo PATCH) realizar operaciones de inserción, actualización o borrado de sus elementos a la vez que realizamos modificaciones en otros campos de la entidad, o en cualquier otras relacion.
+
+Las reglas son las siguientes:
+- Se actualiza un elemento si tiene `\_id` y otras propiedades (payload)
+- Se borra un elemento si tiene `\_id` y carece propiedades (payload)
+- Se añade un elemento nuevo si tiene propiedades (payload) pero carece de `\_id`
+
+```json
+{
+  update : {
+    '_id' : 'someId',
     'c1' : 10,
     'c2' : 12,
-    'list' : [              // este campo es de tipo List y podemos (en el meotodo PATCH) realizar operaciones de inserción, actualización o borrado de sus elementos a la vez que realizamos modificaciones en otros campos de la entidad, o en cualquier otras relacion.
-      { // update item in list (have id)
+    'list' : [  
+      {
         _id : 'n1001',
         img: "/to.mod.file",
       },
-      { // insert new item in list (no id)
+      {
         img : "/to.new.file",
         text : 'newText'
       },
-      { // remove item from list (have id, no payload)
+      {
+        _id : 'n1000'
+      }
+    ],
+  }
+}
+```
+
+**Remove**
+
+Borrar las entidades con el `\_id` especificado, puede eliminarse multiples entidades en la misma llamada. Solo en metodo REMOVE
+
+```json
+{
+  remove : [{
+    '_id' : 'someId'
+  }]  
+}
+```
+
+### Básico: Combos
+
+Podemos mezclar multiples propiedades en una misma petición
+
+```json
+{
+  'select': ['colors','!_id'],
+  query: {
+    'c1' : [{'>': 5, '<=' : 10}, {'=' : 15}]
+  },
+  'insert' : [{
+    'c1' : 10,
+    'c2' : 12
+  }],
+  update : {
+    '_id' : 'someId',
+    'c1' : 10,
+    'c2' : 12,
+    'list' : [  
+      {
+        _id : 'n1001',
+        img: "/to.mod.file",
+      },
+      {
+        img : "/to.new.file",
+        text : 'newText'
+      },
+      {
         _id : 'n1000'
       }
     ],
   },
-  remove : [                 // borrar las entidades con el _id especificado, puede eliminarse multiples entidades en la misma llamada. Solo en metodo REMOVE
+  remove : [{
     '_id' : 'someId'
-  ]
+  }]  
 }
 ```
 
