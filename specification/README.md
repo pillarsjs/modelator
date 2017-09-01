@@ -250,12 +250,13 @@ SELECT c1, c3, c4, sublist.* FROM db INNER JOIN sublist ON sublist._id = db.__su
 ```
 - JAQL
 
+Nota: Los objetos son conjuntos AND, los array son conjuntos OR
+
 ```json
 {
   select : {
     'c1' : true,
     'c2' : false,
-    // los objetos son conjuntos AND, los array son conjuntos OR
     'c3' : {'>':3,'<=':8,...ands,'=':...,'!=':...}, || [{...ands},or{...ands},...ors],
     'sublist' : {
       'color' : 'red',
