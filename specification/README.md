@@ -55,11 +55,11 @@ SQL: SELECT c1, c2, c3 FROM users WHERE c1 = 0;
 ```
 - JAQL:
 ```txt
-GET '/api/v1/users' > {select:['c1','c2','c3'], query: {c1 : 0}}
+GET "/api/v1/users" > {select:["c1","c2","c3"], query: {c1 : 0}}
 ```
 - Interpretación:
 ```txt
-(HTTP METHOD: GET) (JAQL: select) (HTTP PATH: '/api/v1/users') (JAQL: query)
+(HTTP METHOD: GET) (JAQL: select) (HTTP PATH: "/api/v1/users") (JAQL: query)
 ```
 
 **Ejemplo de consulta de datos, CON modificación**
@@ -71,12 +71,12 @@ UPDATE users SET c1 = 1, c2 = 2 WHERE _id = 10
 
 - JAQL:
 ```txt
-(HTTP METHOD: PATCH) (HTTP PATH: '/api/v1/users') (JAQL: update)
+(HTTP METHOD: PATCH) (HTTP PATH: "/api/v1/users") (JAQL: update)
 ```
 
 - Interpretación:
 ```txt
-JAQL: PATCH '/api/v1/users' > {update: {_id : 10, c1 : 1, c2: 2}}
+JAQL: PATCH "/api/v1/users" > {update: {_id : 10, c1 : 1, c2: 2}}
 ```
 
 
@@ -91,7 +91,7 @@ Permite filtrar los campos que deseamos obtener ahorrando peso y tiempo de consu
 
 ```json
 {
-  'select': ['colors','!_id']
+  "select": ["colors","!_id"]
 }
 ```
 
@@ -103,8 +103,8 @@ La lógica sería `(c1 > 5 AND c1 <= 10) OR c1 = 15`
 
 ```json
 {
-  'query': {
-    'c1' : [{'>': 5, '<=' : 10}, {'=' : 15}]
+  "query": {
+    "c1" : [{">": 5, "<=" : 10}, {"=" : 15}]
   }
 }
 ```
@@ -115,9 +115,9 @@ El cuerpo de una entidad/es a insertar, Modelator permite crear esquemas relacio
 
 ```json
 {
-  'insert' : [{
-    'c1' : 10,
-    'c2' : 12
+  "insert" : [{
+    "c1" : 10,
+    "c2" : 12
   }]
 }
 ```
@@ -125,15 +125,15 @@ El cuerpo de una entidad/es a insertar, Modelator permite crear esquemas relacio
 
 **Update**
 
-Los campos a modificar en una entidad especificada por la propiedad `\_id`, es posible declarar modificaciones, inserciones y borrados en entidades 'hija' de la entidad seleccionada en la misma llamada. Solo en el metodo PATCH
+Los campos a modificar en una entidad especificada por la propiedad `\_id`, es posible declarar modificaciones, inserciones y borrados en entidades "hija" de la entidad seleccionada en la misma llamada. Solo en el metodo PATCH
 
 
 ```json
 {
-  update : {
-    '_id' : 'someId',
-    'c1' : 10,
-    'c2' : 12
+  "update" : {
+    "_id" : "someId",
+    "c1" : 10,
+    "c2" : 12
   }
 }
 ```
@@ -147,21 +147,21 @@ Las reglas son las siguientes:
 
 ```json
 {
-  update : {
-    '_id' : 'someId',
-    'c1' : 10,
-    'c2' : 12,
-    'list' : [  
+  "update" : {
+    "_id" : "someId",
+    "c1" : 10,
+    "c2" : 12,
+    "list" : [  
       {
-        _id : 'n1001',
-        img: "/to.mod.file",
+        "_id" : "n1001",
+        "img": "/to.mod.file",
       },
       {
-        img : "/to.new.file",
-        text : 'newText'
+        "img" : "/to.new.file",
+        "text" : "newText"
       },
       {
-        _id : 'n1000'
+        "_id" : "n1000"
       }
     ],
   }
@@ -174,8 +174,8 @@ Borrar las entidades con el `\_id` especificado, puede eliminarse multiples enti
 
 ```json
 {
-  remove : [{
-    '_id' : 'someId'
+  "remove" : [{
+    "_id" : "someId"
   }]  
 }
 ```
@@ -186,34 +186,34 @@ Podemos mezclar multiples propiedades en una misma petición
 
 ```json
 {
-  'select': ['colors','!_id'],
-  query: {
-    'c1' : [{'>': 5, '<=' : 10}, {'=' : 15}]
+  "select": ["colors","!_id"],
+  "query": {
+    "c1" : [{">": 5, "<=" : 10}, {"=" : 15}]
   },
-  'insert' : [{
-    'c1' : 10,
-    'c2' : 12
+  "insert" : [{
+    "c1" : 10,
+    "c2" : 12
   }],
-  update : {
-    '_id' : 'someId',
-    'c1' : 10,
-    'c2' : 12,
-    'list' : [  
+  "update" : {
+    "_id" : "someId",
+    "c1" : 10,
+    "c2" : 12,
+    "list" : [  
       {
-        _id : 'n1001',
-        img: "/to.mod.file",
+        "_id" : "n1001",
+        "img": "/to.mod.file",
       },
       {
-        img : "/to.new.file",
-        text : 'newText'
+        "img" : "/to.new.file",
+        "text" : "newText"
       },
       {
-        _id : 'n1000'
+        "_id" : "n1000"
       }
     ],
   },
-  remove : [{
-    '_id' : 'someId'
+  "remove" : [{
+    "_id" : "someId"
   }]  
 }
 ```
@@ -233,10 +233,10 @@ SELECT * FROM db WHERE a = 0 AND (b = 1 || b = 2) AND d = 5
 - JAQL
 ```json
 {
-  query : {
-    a : 0,
-    b : [{'=' : 1},{'=' : 2}],
-    d : 5
+  "query" : {
+    "a" : 0,
+    "b" : [{"=" : 1},{"=" : 2}],
+    "d" : 5
   }
 }
 ```
@@ -246,7 +246,7 @@ SELECT * FROM db WHERE a = 0 AND (b = 1 || b = 2) AND d = 5
 
 - SQL
 ```sql
-SELECT c1, c3, c4, sublist.* FROM db INNER JOIN sublist ON sublist._id = db.__sublist AND sublist.color = 'red' WHERE db.c3 > 3 AND db.c3 <= 8 ORDER BY c2 DESC LIMIT 30, 10
+SELECT c1, c3, c4, sublist.* FROM db INNER JOIN sublist ON sublist._id = db.__sublist AND sublist.color = "red" WHERE db.c3 > 3 AND db.c3 <= 8 ORDER BY c2 DESC LIMIT 30, 10
 ```
 - JAQL
 
@@ -254,18 +254,18 @@ Nota: Los objetos son conjuntos AND, los array son conjuntos OR
 
 ```json
 {
-  select : {
-    'c1' : true,
-    'c2' : false,
-    'c3' : {'>':3,'<=':8,...ands,'=':...,'!=':...}, || [{...ands},or{...ands},...ors],
-    'sublist' : {
-      'color' : 'red',
-      'size' : true,
-      $limit : 50,
+  "select" : {
+    "c1" : true,
+    "c2" : false,
+    "c3" : {">":3,"<=":8,...ands,"=":...,"!=":...}, || [{...ands},or{...ands},...ors],
+    "sublist" : {
+      "color" : "red",
+      "size" : true,
+      "$limit" : 50,
     },
-    '$limit' : 10,
-    '$sort' : {c2 : -1} ,
-    '$skip' : 30
+    "$limit" : 10,
+    "$sort" : {"c2" : -1} ,
+    "$skip" : 30
   }
 }
 ```
@@ -305,8 +305,8 @@ Una respuesta JAQL sigue el siguiente formato para cualquiera de los métodos di
 - `errors`
   - Identificador/puntero y descriptores de error para el mismo
   ```json
-  'user.friendships[345f2da0]._id' : [
-    {type:"validation", msg:"Invalid ID", details: {...error, stack, etc...}}
+  "user.friendships[345f2da0]._id" : [
+    {"type":"validation", "msg":"Invalid ID", "details": {...error, stack, etc...}}
   ]
   ```  
 - `data`
@@ -323,9 +323,9 @@ Una respuesta JAQL sigue el siguiente formato para cualquiera de los métodos di
 
 ```json
 {
-  errors : {},
-  data: [],
-  meta: {},
-  includes: []
+  "errors": {},
+  "data": [],
+  "meta": {},
+  "includes": []
 }
 ```
