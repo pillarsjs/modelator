@@ -3,7 +3,7 @@
 ### About this Version
 
 - **Current version: 0.1-draft**
-- **Previous version: [Wiki](https://github.com/pillarsjs/modelator/wiki/JAQL-Specification-(v0.1))**
+- **[Wiki](https://github.com/pillarsjs/modelator/wiki/JAQL-Specification-(v0.1))**
 - **[Open Discussions](https://github.com/pillarsjs/modelator/labels/specification)**
 
 ## Definición
@@ -32,14 +32,14 @@ Modelator acepta 4 métodos a ejecutar sobre un modelado:
  - update()
  - remove()
 
-Cada uno de los métodos están relacioandos con un método HTTP. A su vez cada método permite realizar operaciones especialmente complejas (transacciones relacionales, proyecciones...) descritas de forma breve y clara en utilizando JSON.
+Cada uno de los métodos están relacioandos con un método HTTP. A su vez cada método permite realizar operaciones especialmente complejas (transacciones relacionales, proyecciones...) descritas de forma breve y clara utilizando JSON.
 
 
 ### Funcionamiento de una API basada en JAQL
 
-Como ya hemos visto el método HTTP define el método de Modelator, pero necesitamos conocer que modelado de todos los instanciados queremos operar, para esto utilizamos el path/endpoint que sirve exclusivamente para seleccionar un modelado sobre el que realizar una operación. No existen, como ocurre en RESTfull, números indicando indices para operaciones, o sub-rutas, ya que esto es responsabilidad de las sentencias JAQL que oportan en este punto mucha más libertad para realizar operaciones que un escueto indice numérico.
+Como ya hemos visto el método HTTP define el método de Modelator, pero necesitamos conocer que modelado de todos los instanciados queremos operar, para esto utilizamos el URL del endpoint que sirve exclusivamente para seleccionar un modelado sobre el que realizar una operación. No existen, como ocurre en RESTfull, números indicando indices para operaciones, o sub-rutas, ya que esto es responsabilidad de las sentencias JAQL que oportan en este punto mucha más libertad para realizar operaciones que un escueto indice numérico.
 
-> La selección del modelado (instancia de Modelator) desde JAQL se especifica por medio del PATH de la solicitud HTTP
+> La selección del modelado (instancia de Modelator) desde JAQL se especifica por medio de la URL de la solicitud HTTP
 
 Finalmente la sentencia que se pasa a dicho método del modelado seleccionado se define por medio del PAYLOAD de la solicitud en JSON, lo que llamamos sentencia JAQL.
 
@@ -57,9 +57,9 @@ SQL: SELECT c1, c2, c3 FROM users WHERE c1 = 0;
 ```txt
 GET "/api/v1/users" > {select:["c1","c2","c3"], query: {c1 : 0}}
 ```
-- Interpretación:
+- Interpretación como SQL:
 ```txt
-(HTTP METHOD: GET) (JAQL: select) (HTTP PATH: "/api/v1/users") (JAQL: query)
+(HTTP METHOD: GET) (JAQL: select) (HTTP URL: "/api/v1/users") (JAQL: query)
 ```
 
 **Ejemplo de consulta de datos, CON modificación**
@@ -71,10 +71,10 @@ UPDATE users SET c1 = 1, c2 = 2 WHERE _id = 10
 
 - JAQL:
 ```txt
-(HTTP METHOD: PATCH) (HTTP PATH: "/api/v1/users") (JAQL: update)
+(HTTP METHOD: PATCH) (HTTP URL: "/api/v1/users") (JAQL: update)
 ```
 
-- Interpretación:
+- Interpretación como SQL:
 ```txt
 JAQL: PATCH "/api/v1/users" > {update: {_id : 10, c1 : 1, c2: 2}}
 ```
@@ -150,7 +150,7 @@ Es posible realizar actualizaciones complejas en relaciones de cualquier profund
 }
 ```
 
-El campo es de tipo `list` y puede (en el meotodo PATCH) realizar operaciones de inserción, actualización o borrado de sus elementos a la vez que realizamos modificaciones en otros campos de la entidad, o en cualquier otras relacion.
+En el siguiente ejemplo aparece una operación de actualización multiples sobre entidades anidadas. El campo `list` es de tipo `List` lo que implica que se tratá de un array de sub-entidades. Pueden realizararse operaciones de inserción, actualización o borrado de sus elementos a la vez que realizamos modificaciones en otros campos de la entidad principal.
 
 Las reglas son las siguientes:
 - Se actualiza un elemento si tiene `\_id` y otras propiedades (payload)
