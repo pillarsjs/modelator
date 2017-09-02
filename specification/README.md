@@ -82,12 +82,23 @@ JAQL: PATCH "/api/v1/users" > {update: {_id : 10, c1 : 1, c2: 2}}
 
 ## JAQL en detalle
 
-### Básico: Métodos
-Una sentencia JAQL (JSON enviado en el payload de la solicitud HTTP) tiene 5 propiedades posibles
+### Básico
+Una sentencia JAQL (JSON enviado en el payload de la solicitud HTTP) tiene 5 propiedades posibles y excluyentes:
+
+ - select y query, para las llamadas al método http GET
+ - insert, método INSERT
+ - update, método PATCH
+ - remove, método REMOVE
+
+ > El uso de nombres de propiedad distintos permite distinguir y chequear claramente una sentencia JAQL sin necesidad de indicar por separado el método HTTP que se va a utilizar o la URL.
+
+### Método GET, sentencias de consulta
+
+La sentencia JAQL para el método GET consiste en un objeto JSON con las propiedades ``query`` y ``select``.
 
 **Select**
 
-Permite filtrar los campos que deseamos obtener ahorrando peso y tiempo de consulta, es opcional la utilizar el metodo GET, ignorado en cualquier otro caso.
+Permite filtrar los campos que deseamos obtener ahorrando peso y tiempo de consulta, es opcional.
 
 ```json
 {
@@ -97,7 +108,7 @@ Permite filtrar los campos que deseamos obtener ahorrando peso y tiempo de consu
 
 **Query**
 
-Permite realizar operaciones de comparación por cada campo (>=,==,<=,!=), Modelator solo permitirá realizar operaciones de este tipo en campos indexados. Es opcional en el metodo GET, se ignora en cualquier otro caso.
+Permite realizar operaciones de comparación por cada campo (>=,==,<=,!=), Modelator solo permitirá realizar operaciones de este tipo en campos indexados.
 
 La lógica sería `(c1 > 5 AND c1 <= 10) OR c1 = 15`
 
@@ -109,9 +120,9 @@ La lógica sería `(c1 > 5 AND c1 <= 10) OR c1 = 15`
 }
 ```
 
-**Insert**
+### Método INSERT, sentencias de inserción
 
-El cuerpo de una entidad/es a insertar, Modelator permite crear esquemas relacionales y el mismo gestiona dichas relaciones de forma automatica, una nueva entidad puede implicar inserciones en multitud de tablas/colecciones. Solo en metodo POST
+Las sentencias de inserción consisten en un objeto JSON con la propiedad `insert` que a su vez contendrá un objeto que representá a la nueva entidad a insertar.
 
 ```json
 {
@@ -123,9 +134,10 @@ El cuerpo de una entidad/es a insertar, Modelator permite crear esquemas relacio
 ```
 
 
-**Update**
+### Método PATCH, sentencias de actualización
 
-Los campos a modificar en una entidad especificada por la propiedad `\_id`, es posible declarar modificaciones, inserciones y borrados en entidades "hija" de la entidad seleccionada en la misma llamada. Solo en el metodo PATCH
+Las sentencias de actualización consisten en un objeto JSON con la propiedad `update` donde se debe definir un objeto con la propiedad `_id` identificando a la entidad y al menos alguna otra propiedad/atributo que se desea modificar en dicha entidad.
+Es posible realizar actualizaciones complejas en relaciones de cualquier profundidad.
 
 
 ```json
@@ -168,9 +180,10 @@ Las reglas son las siguientes:
 }
 ```
 
-**Remove**
+### Método REMOVE, sentencias de borrado
 
-Borrar las entidades con el `\_id` especificado, puede eliminarse multiples entidades en la misma llamada. Solo en metodo REMOVE
+La sentencia para eliminar entidades consiste en un objeto con la propiedad ``remove`` como array de objetos con la propiedad _id correspondiente a la o las entidades a eliminar.
+
 
 ```json
 {
@@ -180,43 +193,6 @@ Borrar las entidades con el `\_id` especificado, puede eliminarse multiples enti
 }
 ```
 
-### Básico: Combos
-
-Podemos mezclar multiples propiedades en una misma petición
-
-```json
-{
-  "select": ["colors","!_id"],
-  "query": {
-    "c1" : [{">": 5, "<=" : 10}, {"=" : 15}]
-  },
-  "insert" : [{
-    "c1" : 10,
-    "c2" : 12
-  }],
-  "update" : {
-    "_id" : "someId",
-    "c1" : 10,
-    "c2" : 12,
-    "list" : [  
-      {
-        "_id" : "n1001",
-        "img": "/to.mod.file",
-      },
-      {
-        "img" : "/to.new.file",
-        "text" : "newText"
-      },
-      {
-        "_id" : "n1000"
-      }
-    ],
-  },
-  "remove" : [{
-    "_id" : "someId"
-  }]  
-}
-```
 
 > Nota: otros métodos quedan reservados a posibles usos con archivos o para adquirir el descriptor publico del modelado seleccionado etc, por lo que PUT queda reservado para su uso en posteriores versiones.
 
