@@ -55,6 +55,7 @@ SELECT c1, c2, c3 FROM users WHERE c1 = 0;
 ```
 - JAQL:
 ```txt
+GET "/api/v1/users" > {select: ["c1", "c2", "c3"], query: {c1 : 0}}
 ```
 - Interpretación:
 ```txt
