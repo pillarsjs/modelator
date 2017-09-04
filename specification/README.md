@@ -51,11 +51,10 @@ Como JAQL es un lenguaje de consulta relacional podemos comparar una consulta SQ
 
 - SQL:
 ```sql
-SQL: SELECT c1, c2, c3 FROM users WHERE c1 = 0;
+SELECT c1, c2, c3 FROM users WHERE c1 = 0;
 ```
 - JAQL:
 ```txt
-GET "/api/v1/users" > {select:["c1","c2","c3"], query: {c1 : 0}}
 ```
 - Interpretación:
 ```txt
@@ -71,23 +70,25 @@ UPDATE users SET c1 = 1, c2 = 2 WHERE _id = 10
 
 - JAQL:
 ```txt
-(HTTP METHOD: PATCH) (HTTP PATH: "/api/v1/users") (JAQL: update)
+PATCH "/api/v1/users" > {update: {_id : 10, c1 : 1, c2: 2}}
 ```
 
 - Interpretación:
 ```txt
-JAQL: PATCH "/api/v1/users" > {update: {_id : 10, c1 : 1, c2: 2}}
+(HTTP METHOD: PATCH) (HTTP PATH: "/api/v1/users") (JAQL: update)
 ```
 
 
 ## JAQL en detalle
 
 ### Básico: Métodos
-Una sentencia JAQL (JSON enviado en el payload de la solicitud HTTP) tiene 5 propiedades posibles
+Una sentencia JAQL (JSON enviado en el payload de la solicitud HTTP) tiene 5 propiedades posibles:
 
 **Select**
 
-Permite filtrar los campos que deseamos obtener ahorrando peso y tiempo de consulta, es opcional la utilizar el metodo GET, ignorado en cualquier otro caso.
+Permite filtrar los campos que deseamos obtener ahorrando peso y tiempo de consulta. Es opcional en el metodo GET, se ignora en cualquier otro caso. 
+
+Contiene un array con los campos que se quieran o no obtener, y permite el uso de ciertos filtros ([más info sobre la sintaxis de select](#jaql-select-en-más-detalle)).
 
 ```json
 {
@@ -97,7 +98,7 @@ Permite filtrar los campos que deseamos obtener ahorrando peso y tiempo de consu
 
 **Query**
 
-Permite realizar operaciones de comparación por cada campo (>=,==,<=,!=), Modelator solo permitirá realizar operaciones de este tipo en campos indexados. Es opcional en el metodo GET, se ignora en cualquier otro caso.
+Permite realizar operaciones de comparación por cada campo (`>=`, `==`, `<=`, `!=`). Modelator solo permitirá realizar operaciones de este tipo en campos indexados. Es opcional en el metodo GET, se ignora en cualquier otro caso.
 
 La lógica sería `(c1 > 5 AND c1 <= 10) OR c1 = 15`
 
@@ -111,7 +112,7 @@ La lógica sería `(c1 > 5 AND c1 <= 10) OR c1 = 15`
 
 **Insert**
 
-El cuerpo de una entidad/es a insertar, Modelator permite crear esquemas relacionales y el mismo gestiona dichas relaciones de forma automatica, una nueva entidad puede implicar inserciones en multitud de tablas/colecciones. Solo en metodo POST
+El cuerpo de una entidad/es a insertar, Modelator permite crear esquemas relacionales y el mismo gestiona dichas relaciones de forma automatica, una nueva entidad puede implicar inserciones en multitud de tablas/colecciones. Solo se reconoce en el metodo POST.
 
 ```json
 {
@@ -125,7 +126,7 @@ El cuerpo de una entidad/es a insertar, Modelator permite crear esquemas relacio
 
 **Update**
 
-Los campos a modificar en una entidad especificada por la propiedad `\_id`, es posible declarar modificaciones, inserciones y borrados en entidades "hija" de la entidad seleccionada en la misma llamada. Solo en el metodo PATCH
+Los campos a modificar en una entidad especificada por la propiedad `\_id`, es posible declarar modificaciones, inserciones y borrados en entidades "hija" de la entidad seleccionada en la misma llamada. Solo se reconoce en el metodo PATCH.
 
 
 ```json
@@ -170,7 +171,7 @@ Las reglas son las siguientes:
 
 **Remove**
 
-Borrar las entidades con el `\_id` especificado, puede eliminarse multiples entidades en la misma llamada. Solo en metodo REMOVE
+Borrar las entidades con el `\_id` especificado, puede eliminarse multiples entidades en la misma llamada. Solo se reconoce en el metodo REMOVE.
 
 ```json
 {
@@ -182,7 +183,7 @@ Borrar las entidades con el `\_id` especificado, puede eliminarse multiples enti
 
 ### Básico: Combos
 
-Podemos mezclar multiples propiedades en una misma petición
+Podemos mezclar multiples propiedades en una misma petición:
 
 ```json
 {
@@ -225,12 +226,12 @@ Podemos mezclar multiples propiedades en una misma petición
 
 **Otro ejemplo de JAQL query:**
 
-- SQL
+- SQL:
 ```sql
 SELECT * FROM db WHERE a = 0 AND (b = 1 || b = 2) AND d = 5
 ```
 
-- JAQL
+- JAQL:
 ```json
 {
   "query" : {
@@ -244,13 +245,13 @@ SELECT * FROM db WHERE a = 0 AND (b = 1 || b = 2) AND d = 5
 
 **Ejemplo de JAQL query más complejo (sin revisar, viene de otras notas de la especificación):**
 
-- SQL
+- SQL:
 ```sql
 SELECT c1, c3, c4, sublist.* FROM db INNER JOIN sublist ON sublist._id = db.__sublist AND sublist.color = "red" WHERE db.c3 > 3 AND db.c3 <= 8 ORDER BY c2 DESC LIMIT 30, 10
 ```
-- JAQL
+- JAQL:
 
-Nota: Los objetos son conjuntos AND, los array son conjuntos OR
+_Nota: Los objetos son conjuntos AND, los array son conjuntos OR_
 
 ```json
 {
@@ -271,11 +272,11 @@ Nota: Los objetos son conjuntos AND, los array son conjuntos OR
 ```
 
 
-**JAQL select en más detalle:**
+### JAQL select en más detalle:
 
-La propiedad `.main` de cada field en Modelator especifica (como bool) si se considera un field principal, e incluido en las selecciones por defecto, o no. Es decir, main:true hace que dicho atributo/field sea devuelto por defecto si no se especifica lo contrario en la sentencia de lección `select`
+La propiedad `.main` de cada field en Modelator especifica (como bool) si se considera un field principal, e incluido en las selecciones por defecto, o no. Es decir, main:true hace que dicho atributo/field sea devuelto por defecto si no se especifica lo contrario en la sentencia de lección `select`.
 
-Con las sentencias de selección de JAQL se puede variar la selección por defecto del modelado y, adicionalmente, indicar conteos que tb se desean solicitar.
+Con las sentencias de selección de JAQL se puede variar la selección por defecto del modelado y, adicionalmente, indicar conteos que también se desean solicitar.
 
 ```
 select : [
