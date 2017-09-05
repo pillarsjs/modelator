@@ -158,9 +158,9 @@ Es posible realizar actualizaciones complejas en relaciones de cualquier profund
 En el siguiente ejemplo aparece una operación de actualización multiples sobre entidades anidadas. El campo `list` es de tipo `List` lo que implica que se tratá de un array de sub-entidades. Pueden realizararse operaciones de inserción, actualización o borrado de sus elementos a la vez que realizamos modificaciones en otros campos de la entidad principal.
 
 Las reglas son las siguientes:
-- Se actualiza un elemento si tiene `\_id` y otras propiedades (payload)
-- Se borra un elemento si tiene `\_id` y carece propiedades (payload)
-- Se añade un elemento nuevo si tiene propiedades (payload) pero carece de `\_id`
+- Se actualiza un elemento si tiene `_id` y otras propiedades (payload)
+- Se borra un elemento si tiene `_id` y carece propiedades (payload)
+- Se añade un elemento nuevo si tiene propiedades (payload) pero carece de `_id`
 
 ```json
 {
