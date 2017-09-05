@@ -51,11 +51,11 @@ Como JAQL es un lenguaje de consulta relacional podemos comparar una consulta SQ
 
 - SQL:
 ```sql
-SQL: SELECT c1, c2, c3 FROM users WHERE c1 = 0;
+SELECT c1, c2, c3 FROM users WHERE c1 = 0;
 ```
 - JAQL:
 ```txt
-GET "/api/v1/users" > {select:["c1","c2","c3"], query: {c1 : 0}}
+GET "/api/v1/users" > {select: ["c1", "c2", "c3"], query: {c1 : 0}}
 ```
 - Interpretación como SQL:
 ```txt
@@ -71,12 +71,12 @@ UPDATE users SET c1 = 1, c2 = 2 WHERE _id = 10
 
 - JAQL:
 ```txt
-(HTTP METHOD: PATCH) (HTTP URL: "/api/v1/users") (JAQL: update)
+PATCH "/api/v1/users" > {update: {_id : 10, c1 : 1, c2: 2}}
 ```
 
 - Interpretación como SQL:
 ```txt
-JAQL: PATCH "/api/v1/users" > {update: {_id : 10, c1 : 1, c2: 2}}
+(HTTP METHOD: PATCH) (HTTP PATH: "/api/v1/users") (JAQL: update)
 ```
 
 
@@ -100,6 +100,9 @@ La sentencia JAQL para el método GET consiste en un objeto JSON con las propied
 
 Permite filtrar los campos que deseamos obtener ahorrando peso y tiempo de consulta, es opcional.
 
+Contiene un array con los campos que se quieran o no obtener, y permite el uso de ciertos filtros ([más info sobre la sintaxis de select](#jaql-select-en-más-detalle)).
+
+
 ```json
 {
   "select": ["colors","!_id"]
@@ -108,9 +111,10 @@ Permite filtrar los campos que deseamos obtener ahorrando peso y tiempo de consu
 
 **Query**
 
-Permite realizar operaciones de comparación por cada campo (>=,==,<=,!=), Modelator solo permitirá realizar operaciones de este tipo en campos indexados.
+Permite realizar operaciones de comparación por cada campo (`>=`, `==`, `<=`, `!=`). Modelator solo permitirá realizar operaciones de este tipo en campos indexados.
 
-La lógica sería `(c1 > 5 AND c1 <= 10) OR c1 = 15`
+
+La sentencia SQL correspondiente sería: `(c1 > 5 AND c1 <= 10) OR c1 = 15`
 
 ```json
 {
@@ -123,6 +127,7 @@ La lógica sería `(c1 > 5 AND c1 <= 10) OR c1 = 15`
 ### Método INSERT, sentencias de inserción
 
 Las sentencias de inserción consisten en un objeto JSON con la propiedad `insert` que a su vez contendrá un objeto que representá a la nueva entidad a insertar.
+
 
 ```json
 {
@@ -180,6 +185,7 @@ Las reglas son las siguientes:
 }
 ```
 
+
 ### Método REMOVE, sentencias de borrado
 
 La sentencia para eliminar entidades consiste en un objeto con la propiedad ``remove`` como array de objetos con la propiedad _id correspondiente a la o las entidades a eliminar.
@@ -201,12 +207,12 @@ La sentencia para eliminar entidades consiste en un objeto con la propiedad ``re
 
 **Otro ejemplo de JAQL query:**
 
-- SQL
+- SQL:
 ```sql
 SELECT * FROM db WHERE a = 0 AND (b = 1 || b = 2) AND d = 5
 ```
 
-- JAQL
+- JAQL:
 ```json
 {
   "query" : {
@@ -220,13 +226,13 @@ SELECT * FROM db WHERE a = 0 AND (b = 1 || b = 2) AND d = 5
 
 **Ejemplo de JAQL query más complejo (sin revisar, viene de otras notas de la especificación):**
 
-- SQL
+- SQL:
 ```sql
 SELECT c1, c3, c4, sublist.* FROM db INNER JOIN sublist ON sublist._id = db.__sublist AND sublist.color = "red" WHERE db.c3 > 3 AND db.c3 <= 8 ORDER BY c2 DESC LIMIT 30, 10
 ```
-- JAQL
+- JAQL:
 
-Nota: Los objetos son conjuntos AND, los array son conjuntos OR
+> Nota: Los objetos son conjuntos AND, los array son conjuntos OR_
 
 ```json
 {
@@ -247,11 +253,11 @@ Nota: Los objetos son conjuntos AND, los array son conjuntos OR
 ```
 
 
-**JAQL select en más detalle:**
+### JAQL select en más detalle:
 
-La propiedad `.main` de cada field en Modelator especifica (como bool) si se considera un field principal, e incluido en las selecciones por defecto, o no. Es decir, main:true hace que dicho atributo/field sea devuelto por defecto si no se especifica lo contrario en la sentencia de lección `select`
+La propiedad `.main` de cada field en Modelator especifica (como bool) si se considera un field principal, e incluido en las selecciones por defecto, o no. Es decir, main:true hace que dicho atributo/field sea devuelto por defecto si no se especifica lo contrario en la sentencia de lección `select`.
 
-Con las sentencias de selección de JAQL se puede variar la selección por defecto del modelado y, adicionalmente, indicar conteos que tb se desean solicitar.
+Con las sentencias de selección de JAQL se puede variar la selección por defecto del modelado y, adicionalmente, indicar conteos que también se desean solicitar.
 
 ```
 select : [
