@@ -6,6 +6,7 @@ require("colors");
 const myModel = require("./myModel");
 const Chain = require("../lib/Chain");
 const Controllable = require("../lib/Controllable");
+const pointerParse = require("../lib/Pointer");
 Controllable.debug = false;
 
 (new Chain())
@@ -53,8 +54,16 @@ Controllable.debug = false;
 
     myModel.insert(
       sentence,                          // Input JAQL setence
-      function(error, context, transaction){
-        // console.log("RESULT".bgRed, transaction);
+      function(errors, transaction){
+        if(errors){
+          console.log(" INSERT ERRORS: ".bgRed);
+          for(const [pointer, error] of errors){
+            console.log("   " + pointerParse(pointer).red, error);
+          }
+        } else {
+          console.log(" INSERT OK ".bgGreen);
+        }
+        console.log();
         next();
       },                              // Result CB
       "someUserID",                      // User ID
@@ -74,8 +83,19 @@ Controllable.debug = false;
 
     myModel.get(
       sentence,                          // Input JAQL setence
-      function(){
-        // console.log("RESULT".bgRed,arguments);
+      function(errors, transaction){
+        if(errors){
+          console.log(" GET #1 ERRORS: ".bgRed);
+          for(const [pointer, error] of errors){
+            console.log("   " + pointerParse(pointer).red, error);
+          }
+        } else {
+          console.log(" GET #1 OK: ".bgGreen);
+          for(const [pointer, result] of transaction.results){
+            console.log("   " + pointerParse(pointer).green, result);
+          }
+        }
+        console.log();
         next();
       },                              // Result CB
       "someUserID",                      // User ID
@@ -84,23 +104,6 @@ Controllable.debug = false;
     );
   })
   /* */
-  .add(function(next){
-
-    const sentence = {
-      "list.sublist" : {},
-    };
-
-    myModel.count(
-      sentence,                          // Input JAQL setence
-      function(){
-        // console.log("RESULT".bgRed,arguments);
-        next();
-      },                              // Result CB
-      "someUserID",                      // User ID
-      ["A", "B", "admin", "manager_"],   // User keyring
-      true                               // Exec transaction
-    );
-  })
   .add(function(next){
 
     const sentence = {
@@ -147,8 +150,16 @@ Controllable.debug = false;
 
     myModel.update(
       sentence,                          // Input JAQL setence
-      function(){
-        // console.log("RESULT".bgRed,arguments);
+      function(errors, transaction){
+        if(errors){
+          console.log(" UPDATE #1 ERRORS: ".bgRed);
+          for(const [pointer, error] of errors){
+            console.log("   " + pointerParse(pointer).red, error);
+          }
+        } else {
+          console.log(" UPDATE #1 OK ".bgGreen);
+        }
+        console.log();
         next();
       },                              // Result CB
       "someUserID",                      // User ID
@@ -161,7 +172,7 @@ Controllable.debug = false;
 
     const sentence = {
       _id : "prueba",
-      text : 'Hello Remove!',
+      text : 'Hello Mod2!',
       list : [
         {_id : "list2"},
         {_id : "listnuevo1"},
@@ -171,8 +182,47 @@ Controllable.debug = false;
 
     myModel.update(
       sentence,                          // Input JAQL setence
-      function(){
-        // console.log("RESULT".bgRed,arguments);
+      function(errors, transaction){
+        if(errors){
+          console.log(" UPDATE #2 ERRORS: ".bgRed);
+          for(const [pointer, error] of errors){
+            console.log("   " + pointerParse(pointer).red, error);
+          }
+        } else {
+          console.log(" UPDATE #2 OK ".bgGreen);
+        }
+        console.log();
+        next();
+      },                              // Result CB
+      "someUserID",                      // User ID
+      ["A", "B", "admin", "manager_"],   // User keyring
+      true                               // Exec transaction
+    );
+  })
+  /* */
+  .add(function(next){
+
+    const sentence = {
+      "_id" : "prueba",
+      "text" : "Hello Mod2!",
+      "list" : {}
+    };
+
+    myModel.get(
+      sentence,                          // Input JAQL setence
+      function(errors, transaction){
+        if(errors){
+          console.log(" GET #2 ERRORS: ".bgRed);
+          for(const [pointer, error] of errors){
+            console.log("   " + pointerParse(pointer).red, error);
+          }
+        } else {
+          console.log(" GET #2 OK: ".bgGreen);
+          for(const [pointer, result] of transaction.results){
+            console.log("   " + pointerParse(pointer).green, result);
+          }
+        }
+        console.log();
         next();
       },                              // Result CB
       "someUserID",                      // User ID
@@ -187,8 +237,16 @@ Controllable.debug = false;
 
     myModel.remove(
       sentence,                          // Input JAQL setence
-      function(){
-        // console.log("RESULT".bgRed,arguments);
+      function(errors, transaction){
+        if(errors){
+          console.log(" REMOVE ERRORS: ".bgRed);
+          for(const [pointer, error] of errors){
+            console.log("   " + pointerParse(pointer).red, error);
+          }
+        } else {
+          console.log(" REMOVE OK ".bgGreen);
+        }
+        console.log();
         next();
       },                              // Result CB
       "someUserID",                      // User ID
@@ -197,6 +255,10 @@ Controllable.debug = false;
     );
   })
   /* */
+  .add(function(next){
+    myModel.driver.service.stop();
+    next();
+  })
 .pull();
 
 

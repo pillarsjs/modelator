@@ -83,7 +83,7 @@ const myModelator = module.exports = new Modelator({
       driver,
       on : {
         insert : [function showMessage(context, done){
-          console.log("\n", " ---> INSERT EVENT for list <--- ".bgBlue, "\n");
+          // console.log("\n", " ---> INSERT EVENT for list <--- ".bgBlue, "\n");
           done();
         }]
       },
@@ -107,7 +107,7 @@ const myModelator = module.exports = new Modelator({
           driver,
           on : {
             insert : [function showMessage(context, done){
-              console.log("\n", " ---> INSERT EVENT for list <--- ".bgBlue, "\n");
+              // console.log("\n", " ---> INSERT EVENT for list <--- ".bgBlue, "\n");
               done();
             }]
           },
