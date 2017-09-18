@@ -1,6 +1,4 @@
 /*
-/*    Copyright (C) 2017 Consuelo Quilón Gómez <cheloq.at.gmail.com>
-/*
 /*    This program is free software: you can redistribute it and/or  modify
 /*    it under the terms of the GNU Affero General Public License, version 3,
 /*    as published by the Free Software Foundation.
@@ -16,7 +14,7 @@
 /*    The Original Code is "Pillars.js Modelator" aka "Modelator"
 /*
 /*    The Initial Developer of the Original Code is Consuelo Quilón Gómez <cheloq.at.gmail.com>.
-/*    Copyright (c) 2014-2017 Consuelo Quilón Gómez.  All rights reserved.
+/*    Copyright (c) 2014-2017 Consuelo Quilón Gómez.
 /*/
 
 /* jslint node: true, esnext: true */
