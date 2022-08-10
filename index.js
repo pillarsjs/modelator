@@ -13,8 +13,7 @@
 /*
 /*    The Original Code is "Pillars.js Modelator" aka "Modelator"
 /*
-/*    The Initial Developer of the Original Code is Francisco Javier Gallego Martín <bifuer.at.gmail.com>.
-/*    Copyright (c) 2014-2017 Francisco Javier Gallego Martín.
+/*    The Initial Developer of the Original Code is Bifuer <bifuer at github>.
 /*/
 
 /* jslint node: true, esnext: true */
